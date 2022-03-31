@@ -1,1 +1,4 @@
 .idea
+.mypy_cache
+dump.rdb
+__pycache__
