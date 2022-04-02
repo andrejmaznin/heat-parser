@@ -8,11 +8,11 @@ import requests
 def parser_site_from_explorer(site_link: str) -> List[str]:
     try:
         # User agent
-        params = {
+        headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.121 Safari/537.36' # noqa
         }
 
-        r = requests.get(f'{site_link}', params=params)
+        r = requests.get(f'{site_link}', headers=headers)
         # Html code from site
         html_text = r.text
 

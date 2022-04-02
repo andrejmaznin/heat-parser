@@ -9,17 +9,17 @@ from modules.redis.models import Country, PersonName, PhoneNumber
 from parsing.consts import PERSON_NAME_REGEX, currents
 
 
-def parse_numbers(text: str) -> List[PhoneNumber]:
+def parse_numbers(text: str) -> List[str]:
     return [
         PhoneNumber(
-            number=match.raw_string,
+            number=match.raw_string.replace(' ', ''),
             country=Country(
                 iso_code=region_code_for_country_code(
                     match.number.country_code
                 )
             ),
             **currents.get_currents()
-        ).save() for match in PhoneNumberMatcher(text, None)
+        ).save().pk for match in PhoneNumberMatcher(text, None)
     ]
 
 
@@ -38,7 +38,7 @@ def format_quotes(text: str) -> str:
     return text
 
 
-def find_person_names(text: str) -> List[PersonName]:
+def find_person_names(text: str) -> List[str]:
     names = []
 
     for name in re.findall(PERSON_NAME_REGEX, text):
@@ -48,7 +48,7 @@ def find_person_names(text: str) -> List[PersonName]:
                 forename=forename,
                 surname=surname,
                 **currents.get_currents()
-            ).save()
+            ).save().pk
         )
 
     return names
@@ -56,4 +56,4 @@ def find_person_names(text: str) -> List[PersonName]:
 
 # should be replaced with regex
 def check_text(text: str) -> bool:
-    return text == text.capitalize() and text.count(' ') <= 1
+    return text == text.capitalize() and text.count(' ') <= 1 and text

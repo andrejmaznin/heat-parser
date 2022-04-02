@@ -23,6 +23,8 @@ langdetect = "^1.0.9"
 app-state = "^0.5"
 current = "^0.4"
 fake-useragent = "^0.1.11"
+pytest = "^7.1.1"
+aiohttp = "^3.8.1"
 
 [tool.poetry.dev-dependencies]
 
