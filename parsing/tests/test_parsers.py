@@ -1,7 +1,11 @@
 import asyncio
 
+from redis import Redis
+
 from modules.redis.models import Email
 from parsing.parsers import parse_recursive
+
+r = Redis()
 
 
 def test_all_parsers():
@@ -14,5 +18,5 @@ def test_all_parsers():
     )
 
 
-print(set([Email.get(pk).email for pk in Email.all_pks()]))
-test_all_parsers()
+print([Email.get(pk).__dict__ for pk in Email.all_pks()])
+print(len(r.lrange('mymodel.Email', 0, -1)))
